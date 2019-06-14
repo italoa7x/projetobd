@@ -3,7 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package telas
+package telas;
+
+import dao.HospedeDAO;
+import dao.IThospedeDAO;
+import dao.ITpedidoDAO;
+import dao.ITprodutoDAO;
+import dao.PedidoDAO;
+import dao.ProdutoDAO;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import model.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,10 +27,15 @@ public class Frm_pedido extends javax.swing.JFrame {
      * Creates new form Frm_pedido
      */
     
-
+    private ITpedidoDAO pedidodao;
+    private IThospedeDAO hospededao;
+    private ITprodutoDAO produtodao;
+    
     public Frm_pedido() {
         initComponents();
-       
+        pedidodao = new PedidoDAO();
+        hospededao = new HospedeDAO();
+        produtodao = new ProdutoDAO();
     }
 
     /**
@@ -386,12 +403,12 @@ public class Frm_pedido extends javax.swing.JFrame {
     private void areaPesquisaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_areaPesquisaKeyReleased
         String nome = areaPesquisa.getText();
         try {
-            HospedeDTO achado = (HospedeDTO) controleHospede.search(nome);
+            Hospede achado = hospededao.search(nome);
             if (achado != null) {
                 campoEmailHospede.setText(achado.getEmail());
                 campoIdHospede.setText(achado.getId() + "");
-                campoTelefoneHospede.setText(achado.getTelephone());
-                campoNomeHospede.setText(achado.getName());
+                campoTelefoneHospede.setText(achado.getTelefone());
+                campoNomeHospede.setText(achado.getNome());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -433,11 +450,11 @@ public class Frm_pedido extends javax.swing.JFrame {
     private void areaPesquisaProdutoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_areaPesquisaProdutoKeyReleased
         String nomeProd = areaPesquisaProduto.getText();
         try {
-            ProdutoDTO achado = (ProdutoDTO) controleProduto.search(nomeProd);
+            Produto achado = produtodao.search(nomeProd);
             if (achado != null) {
                 areaIdProduto.setText(achado.getId() + "");
-                areaNomeProduto.setText(achado.getName());
-                areaValorProduto.setText(achado.getValue() + "");
+                areaNomeProduto.setText(achado.getNome());
+                areaValorProduto.setText(achado.getValor()+ "");
             }
 
         } catch (Exception e) {
@@ -465,17 +482,15 @@ public class Frm_pedido extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            PedidoDTO pedido = (PedidoDTO) fabricaPedido.gerar("dto");
+            Pedido pedido = new Pedido();
             int idHospede = Integer.parseInt(campoIdHospede.getText());
-            int idFuncionario = funcionarioLogado.getId();
-            pedido.setId_funcionario(idFuncionario);
-            pedido.setId_hospede(idHospede);
-            ArrayList<ProdutoDTO> listaProdutos = coletarProdutos();
+            pedido.setIdHospede(idHospede);
+            ArrayList<Produto> listaProdutos = coletarProdutos();
             
-            pedido.setListaProdutos(listaProdutos);
+            pedido.setProdutos(listaProdutos);
             
             if (listaProdutos.size() > 0 && idHospede > 0) {
-                if (controlePedido.save(pedido)) {
+                if (pedidodao.create(pedido)) {
                     JOptionPane.showMessageDialog(null, "Pedido finalizado.");
                     this.limparCamposProduto();
                     this.limparCamposGeral();
@@ -490,19 +505,18 @@ public class Frm_pedido extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        new Frm_inicial(funcionarioLogado).setVisible(true);
-        dispose();
+       
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // método responsável por coletar os produtos da tabela de produtos inseridos.
-    private ArrayList<ProdutoDTO> coletarProdutos() {
-        ArrayList<ProdutoDTO> lista = new ArrayList<ProdutoDTO>();
+    private ArrayList<Produto> coletarProdutos() {
+        ArrayList<Produto> lista = new ArrayList<Produto>();
         for (int i = 0; i < tbl_produtos.getModel().getRowCount(); i++) {
-            ProdutoDTO atual = (ProdutoDTO) fabricaProduto.gerar("dto");
+            Produto atual = new Produto();
             int idProd = Integer.parseInt((String) tbl_produtos.getValueAt(i, 0));
             int quantProd = Integer.parseInt((String) tbl_produtos.getValueAt(i, 3));
             atual.setId(idProd);
-            atual.setAmount(quantProd);
+            atual.setQuantidade(quantProd);
             lista.add(atual);
         }
         return lista;

@@ -5,9 +5,15 @@
  */
 package telas;
 
+import dao.HospedeDAO;
+import dao.IThospedeDAO;
+import dao.ITquartoDAO;
+import dao.QuartoDAO;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import model.Hospede;
+import model.Quarto;
 
 /**
  *
@@ -18,11 +24,14 @@ public class Frm_reserva extends javax.swing.JFrame {
     /**
      * Creates new form Frm_reserva
      */
-  
+    private ITquartoDAO quartodao;
+    private IThospedeDAO hospededao;
+    
     public Frm_reserva() {
         initComponents();
-        
-
+        quartodao = new QuartoDAO();
+        hospededao = new HospedeDAO();
+        this.popularBotoe();
     }
 
     private void popularBotoe() {
@@ -41,8 +50,8 @@ public class Frm_reserva extends javax.swing.JFrame {
         botoes.add(this.bt12);
 
         try {
-            QuartoDTO registroQuartos = (QuartoDTO) controleQuartos.read();
-            ArrayList<QuartoDTO> quartos = registroQuartos.getAllQuartos();
+            Quarto registroQuartos = (Quarto) quartodao.read();
+            ArrayList<Quarto> quartos = registroQuartos.getQuartos();
             for (int i = 0; i < botoes.size(); i++) {
                 if (quartos.get(i).getStatus().equalsIgnoreCase("disponível")) {
                     botoes.get(i).setText(quartos.get(i).getId() + "-" + quartos.get(i).getStatus());
@@ -385,10 +394,10 @@ public class Frm_reserva extends javax.swing.JFrame {
         try {
             String nome = campoPesquisarHospede.getText();
             if (nome.length() > 0) {
-                HospedeDTO achado = (HospedeDTO) controleHospede.search(nome);
+                Hospede achado = hospededao.search(nome);
                 if (achado != null) {
                     campoCpf.setText(achado.getCpf());
-                    campoNome.setText(achado.getName());
+                    campoNome.setText(achado.getNome());
                     campoId.setText(achado.getId() + "");
                 }
 

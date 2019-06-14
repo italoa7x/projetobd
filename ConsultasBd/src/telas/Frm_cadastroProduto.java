@@ -5,6 +5,11 @@
  */
 package telas;
 
+import dao.ProdutoDAO;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Produto;
+
 /**
  *
  * @author italo
@@ -14,9 +19,50 @@ public class Frm_cadastroProduto extends javax.swing.JFrame {
     /**
      * Creates new form Frm_cadastroFuncionario
      */
+    private ProdutoDAO produtodao;
+    
     public Frm_cadastroProduto() {
         initComponents();
-
+        produtodao = new ProdutoDAO();
+        this.preencherTabela();
+        
+    }
+    
+    private void preencherTabela() {
+        try {
+            DefaultTableModel modelo = (DefaultTableModel) this.tbl_funcionarios.getModel();
+            Produto registro = (Produto) produtodao.read();
+            for (Produto x : registro.getProdutosCadastrados()) {
+                String[] dado = new String[4];
+                dado[0] = x.getId() + "";
+                dado[1] = x.getNome();
+                dado[2] = x.getValor() + "";
+                dado[3] = x.getQuantidade() + "";
+                modelo.addRow(dado);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+        
+    }
+    
+    private void atualizarTabela() {
+        try {
+            DefaultTableModel modelo = (DefaultTableModel) this.tbl_funcionarios.getModel();
+            Produto registro = (Produto) produtodao.read();
+            modelo.setNumRows(0);
+            for (Produto x : registro.getProdutosCadastrados()) {
+                String[] dado = new String[4];
+                dado[0] = x.getId() + "";
+                dado[1] = x.getNome();
+                dado[2] = x.getValor() + "";
+                dado[3] = x.getQuantidade() + "";
+                modelo.addRow(dado);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+        
     }
 
     /**
@@ -28,6 +74,10 @@ public class Frm_cadastroProduto extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbl_funcionarios = new javax.swing.JTable();
+        btExcluir = new javax.swing.JButton();
+        btNovo = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         campoNome = new javax.swing.JTextField();
@@ -39,19 +89,43 @@ public class Frm_cadastroProduto extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
-        getContentPane().setLayout(null);
+
+        tbl_funcionarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nome", "Valor", "Quantidade"
+            }
+        ));
+        tbl_funcionarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_funcionariosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbl_funcionarios);
+
+        btExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ifpb/ads/icones/iconfinder_ic_delete_48px_352303.png"))); // NOI18N
+        btExcluir.setPreferredSize(new java.awt.Dimension(80, 70));
+        btExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluirActionPerformed(evt);
+            }
+        });
+
+        btNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ifpb/ads/icones/iconfinder_add_user_309049_1.png"))); // NOI18N
+        btNovo.setPreferredSize(new java.awt.Dimension(80, 70));
+        btNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btNovoActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Nome");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(10, 56, 27, 14);
 
         jLabel2.setText("Valor R$");
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(10, 94, 40, 14);
 
         campoNome.setEditable(false);
-        getContentPane().add(campoNome);
-        campoNome.setBounds(64, 53, 160, 20);
 
         btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ifpb/ads/icones/iconfinder_save_2639912.png"))); // NOI18N
         btSalvar.setText("Salvar");
@@ -60,8 +134,6 @@ public class Frm_cadastroProduto extends javax.swing.JFrame {
                 btSalvarActionPerformed(evt);
             }
         });
-        getContentPane().add(btSalvar);
-        btSalvar.setBounds(30, 190, 63, 23);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ifpb/ads/icones/iconfinder_Login_out_85206.png"))); // NOI18N
         jButton1.setText("Voltar");
@@ -70,40 +142,167 @@ public class Frm_cadastroProduto extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(130, 193, 78, 23);
 
         jLabel3.setText("QTD");
-        getContentPane().add(jLabel3);
-        jLabel3.setBounds(10, 132, 21, 14);
 
         campoQtd.setEditable(false);
-        getContentPane().add(campoQtd);
-        campoQtd.setBounds(54, 129, 94, 20);
 
         try {
             campoValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        getContentPane().add(campoValor);
-        campoValor.setBounds(54, 91, 94, 20);
 
-        setSize(new java.awt.Dimension(244, 292));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btNovo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(89, 89, 89)
+                .addComponent(btExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(107, 107, 107))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(27, 27, 27)
+                                .addComponent(campoNome))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(campoQtd, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                                    .addComponent(campoValor))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(5, 5, 5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(btSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel3)))
+                        .addGap(12, 12, 12)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(campoNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(campoValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(campoQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btSalvar)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btNovo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+
+        setSize(new java.awt.Dimension(756, 419));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         // TODO add your handling code here:
+        try {
+            // pega os dados do funcionário que form preenchidos nos campos.
+            String nome = campoNome.getText();
+            float valor = Float.parseFloat(campoValor.getText());
+            int quantidade = Integer.parseInt(campoQtd.getText());
 
+            // instancia um novo produtoDTO que será usado como "moeda" de transferência de dados.
+            Produto novo = new Produto();
+            // seta os dados do produto.
+            novo.setNome(nome);
+            novo.setQuantidade(quantidade);
+            novo.setValor(valor);
+            
+            if (nome.length() > 0 && !campoValor.getText().equals("")) {
+                // manda o objetoDTO para seguir o curso do MVC até o banco de dados.
+                if (produtodao.create(novo)) {
+                    JOptionPane.showMessageDialog(null, "Cadastrado!");
+                    this.atualizarTabela();
+                    this.limparCampos();
+                    
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }//GEN-LAST:event_btSalvarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNovoActionPerformed
+        // TODO add your handling code here:
+        this.habilitarCampos();
+    }//GEN-LAST:event_btNovoActionPerformed
 
+    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+        // TODO add your handling code here:
+        int linha = tbl_funcionarios.getSelectedRow();
+        int id = Integer.parseInt((String) tbl_funcionarios.getValueAt(linha, 0));
+        try {
+            if (produtodao.delete(id)) {
+                JOptionPane.showMessageDialog(null, "Excluído!");
+                this.atualizarTabela();
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Não é possível excluir o quarto, pois o mesmo está sendo usado em um registro");
+        }
+    }//GEN-LAST:event_btExcluirActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+       
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tbl_funcionariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_funcionariosMouseClicked
+        
+    }//GEN-LAST:event_tbl_funcionariosMouseClicked
+    
+    private void habilitarCampos() {
+        campoQtd.setEditable(true);
+        campoNome.setEditable(true);
+        campoValor.setEditable(true);
+    }
+    
+    private void limparCampos() {
+        campoQtd.setText("");
+        campoNome.setText("");
+        campoValor.setText("");
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btExcluir;
+    private javax.swing.JButton btNovo;
     private javax.swing.JButton btSalvar;
     private javax.swing.JTextField campoNome;
     private javax.swing.JTextField campoQtd;
@@ -112,5 +311,7 @@ public class Frm_cadastroProduto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tbl_funcionarios;
     // End of variables declaration//GEN-END:variables
 }

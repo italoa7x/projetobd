@@ -44,10 +44,25 @@ public class Principal extends javax.swing.JFrame {
         setResizable(false);
 
         btCadastroHospede.setText("Cadastrar hospede");
+        btCadastroHospede.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCadastroHospedeActionPerformed(evt);
+            }
+        });
 
         btCadastraProduto.setText("Cadastrar produto");
+        btCadastraProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCadastraProdutoActionPerformed(evt);
+            }
+        });
 
         btCadastraQuarto.setText("Cadastrar quarto");
+        btCadastraQuarto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCadastraQuartoActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Consulta 1");
 
@@ -136,6 +151,21 @@ public class Principal extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void btCadastroHospedeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastroHospedeActionPerformed
+        // TODO add your handling code here:
+        new Frm_cadastroHospede().setVisible(true);
+    }//GEN-LAST:event_btCadastroHospedeActionPerformed
+
+    private void btCadastraProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastraProdutoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btCadastraProdutoActionPerformed
+
+    private void btCadastraQuartoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastraQuartoActionPerformed
+        // TODO add your handling code here:
+        new Frm_cadastroQuarto().setVisible(true);
+        
+    }//GEN-LAST:event_btCadastraQuartoActionPerformed
 
     /**
      * @param args the command line arguments

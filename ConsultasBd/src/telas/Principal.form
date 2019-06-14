@@ -96,16 +96,25 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Cadastrar hospede"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btCadastroHospedeActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btCadastraProduto">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cadastrar produto"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btCadastraProdutoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btCadastraQuarto">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cadastrar quarto"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btCadastraQuartoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>

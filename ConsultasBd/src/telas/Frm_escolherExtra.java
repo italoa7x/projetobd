@@ -4,7 +4,11 @@
  * and open the template in the editor.
  */
 package telas;
-
+import dao.ExtraDAO;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Extra;
 
 /**
  *
@@ -12,13 +16,32 @@ package telas;
  */
 public class Frm_escolherExtra extends javax.swing.JFrame {
 
-   
-    public Frm_escolherExtra() {
+    private ExtraDAO extradao;
+    private Frm_cadastroQuarto atual;
+    
+    public Frm_escolherExtra(Frm_cadastroQuarto tela) {
         initComponents();
-       
+        extradao = new ExtraDAO();
+        atual = tela;
+        preencherTabela();
     }
 
-   
+    private void preencherTabela() {
+        DefaultTableModel modelo = (DefaultTableModel) tbl_extra.getModel();
+        try {
+           ArrayList<Extra> extras = extradao.read();
+
+            for(Extra x : extras) {
+                String[] dados = new String[2];
+                dados[0] = x.getId() + "";
+                dados[1] = x.getNome();
+                modelo.addRow(dados);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -76,7 +99,14 @@ public class Frm_escolherExtra extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btEscolherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEscolherActionPerformed
-      
+        // TODO add your handling code here:
+        int linha = tbl_extra.getSelectedRow();
+        if (linha != -1) {
+            String id = (String) tbl_extra.getValueAt(linha, 0);
+            String extra = (String) tbl_extra.getValueAt(linha, 1);
+            atual.inserirExtra(id, extra);
+        }
+
     }//GEN-LAST:event_btEscolherActionPerformed
 
 
