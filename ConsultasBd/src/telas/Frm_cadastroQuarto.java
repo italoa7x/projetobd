@@ -116,7 +116,7 @@ public class Frm_cadastroQuarto extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable1);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         tbl_quarto.setModel(new javax.swing.table.DefaultTableModel(

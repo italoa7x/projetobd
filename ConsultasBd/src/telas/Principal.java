@@ -39,9 +39,11 @@ public class Principal extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         btReservaQuarto = new javax.swing.JButton();
         btPedido = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        getContentPane().setLayout(null);
 
         btCadastroHospede.setText("Cadastrar hospede");
         btCadastroHospede.addActionListener(new java.awt.event.ActionListener() {
@@ -49,6 +51,8 @@ public class Principal extends javax.swing.JFrame {
                 btCadastroHospedeActionPerformed(evt);
             }
         });
+        getContentPane().add(btCadastroHospede);
+        btCadastroHospede.setBounds(10, 11, 137, 39);
 
         btCadastraProduto.setText("Cadastrar produto");
         btCadastraProduto.addActionListener(new java.awt.event.ActionListener() {
@@ -56,6 +60,8 @@ public class Principal extends javax.swing.JFrame {
                 btCadastraProdutoActionPerformed(evt);
             }
         });
+        getContentPane().add(btCadastraProduto);
+        btCadastraProduto.setBounds(10, 68, 137, 39);
 
         btCadastraQuarto.setText("Cadastrar quarto");
         btCadastraQuarto.addActionListener(new java.awt.event.ActionListener() {
@@ -63,14 +69,24 @@ public class Principal extends javax.swing.JFrame {
                 btCadastraQuartoActionPerformed(evt);
             }
         });
+        getContentPane().add(btCadastraQuarto);
+        btCadastraQuarto.setBounds(10, 113, 137, 39);
 
         jButton1.setText("Consulta 1");
+        getContentPane().add(jButton1);
+        jButton1.setBounds(371, 19, 83, 23);
 
         jButton2.setText("Consulta 2");
+        getContentPane().add(jButton2);
+        jButton2.setBounds(371, 61, 83, 23);
 
         jButton3.setText("Consulta 3");
+        getContentPane().add(jButton3);
+        jButton3.setBounds(371, 95, 83, 23);
 
         jButton4.setText("Consulta 4");
+        getContentPane().add(jButton4);
+        jButton4.setBounds(371, 129, 83, 23);
 
         jButton5.setText("Consulta 5");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -78,73 +94,40 @@ public class Principal extends javax.swing.JFrame {
                 jButton5ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton5);
+        jButton5.setBounds(371, 158, 83, 23);
 
         jButton6.setText("Consulta 6");
+        getContentPane().add(jButton6);
+        jButton6.setBounds(371, 192, 83, 23);
 
         jButton7.setText("Consulta 7");
+        getContentPane().add(jButton7);
+        jButton7.setBounds(371, 226, 83, 23);
 
         btReservaQuarto.setText("Reservar quarto");
+        getContentPane().add(btReservaQuarto);
+        btReservaQuarto.setBounds(10, 158, 137, 39);
 
         btPedido.setText("Pedido");
+        btPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPedidoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btPedido);
+        btPedido.setBounds(10, 260, 137, 40);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(btCadastroHospede)
-                        .addComponent(btCadastraProduto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btCadastraQuarto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btReservaQuarto, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 236, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton7)
-                    .addComponent(jButton6)
-                    .addComponent(jButton5)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addGap(35, 35, 35))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btCadastroHospede, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(btCadastraProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btCadastraQuarto, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btReservaQuarto, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton6)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton7)
-                    .addComponent(btPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(35, Short.MAX_VALUE))
-        );
+        jButton8.setText("Cadastrar funcionario");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton8);
+        jButton8.setBounds(10, 208, 137, 41);
 
-        setSize(new java.awt.Dimension(505, 332));
+        setSize(new java.awt.Dimension(505, 367));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -166,6 +149,16 @@ public class Principal extends javax.swing.JFrame {
         new Frm_cadastroQuarto().setVisible(true);
         
     }//GEN-LAST:event_btCadastraQuartoActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        new Frm_cadastroFuncionario().setVisible(true);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void btPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPedidoActionPerformed
+        // TODO add your handling code here:
+        new Frm_pedido().setVisible(true);
+    }//GEN-LAST:event_btPedidoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -215,5 +208,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,6 +4,7 @@ create table funcionario(
 nome varchar(30),
 cpf varchar(20) unique,
 telefone varchar(20),
+cargo varchar(20),
 id int auto_increment,
 primary key(id)
 );
@@ -59,12 +60,13 @@ foreign key(id_extra) references extra(id)
 create table reserva(
 id_hospede int not null,
 id_quarto int not null,
-diaria float,
+id_funcionario int not null,
 quant_dias int,
 id int auto_increment,
-constraint pk_reserva primary key(id),
-constraint fk_hospede foreign key(id_hospede) references hospede(id),
-constraint fk_quarto foreign key(id_quarto) references quarto(id));
+primary key(id),
+foreign key(id_hospede) references hospede(id),
+foreign key(id_funcionario) references funcionario(id),
+foreign key(id_quarto) references quarto(id));
 
 create table pagamento(
 id_reserva int not null,
@@ -98,6 +100,13 @@ update produto set quantidade = (quantidade - new.quantidade) where id = new.id_
 end $
 
 
+delimiter $
+create trigger atualizaStatus after insert
+on reserva
+for each row
+begin
+update quarto set status = 'Ocupado' where id = new.id_quarto;
+end $
 
 
 -- INSERÇÕES --

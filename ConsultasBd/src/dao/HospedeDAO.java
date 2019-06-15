@@ -33,7 +33,7 @@ public class HospedeDAO implements IThospedeDAO {
             pst.execute();
             return true;
         } catch (Exception e) {
-            throw new Exception("Erro ao salvar cliente. " + e.getMessage());
+            throw new Exception("Erro ao salvar hospede. " + e.getMessage());
         }
     }
 

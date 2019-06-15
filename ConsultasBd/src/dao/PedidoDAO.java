@@ -2,6 +2,7 @@ package dao;
 
 import bd.Conexao;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -31,13 +32,14 @@ public class PedidoDAO implements ITpedidoDAO {
         Pedido pedido = (Pedido) obj;
         int idPedido = -1;
         try {
-            pst = con.prepareStatement("INSERT INTO pedido (id_hospede) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            pst = con.prepareStatement("INSERT INTO pedido (id_hospede,data_pedido) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS);
             pst.setInt(1, pedido.getIdHospede());
+            pst.setDate(2, new Date(System.currentTimeMillis()));
             pst.execute();
             rs = pst.getGeneratedKeys();
 
             while (rs.next()) {
-                idPedido = rs.getInt("id");
+                idPedido = rs.getInt(1);
             }
 
         } catch (Exception e) {
