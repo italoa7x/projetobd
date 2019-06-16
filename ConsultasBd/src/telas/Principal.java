@@ -5,6 +5,15 @@
  */
 package telas;
 
+import bd.Conexao;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+import model.Funcionario;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
+
 /**
  *
  * @author darkc
@@ -14,8 +23,17 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
-    public Principal() {
+    private Funcionario logado;
+    
+    public Principal(Funcionario f) {
         initComponents();
+        logado = f;
+        
+        if(logado != null){
+            lblLogado.setText(logado.getCargo());
+        }else{
+            lblLogado.setText("admin");
+        }
     }
 
     /**
@@ -30,16 +48,11 @@ public class Principal extends javax.swing.JFrame {
         btCadastroHospede = new javax.swing.JButton();
         btCadastraProduto = new javax.swing.JButton();
         btCadastraQuarto = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
         btReservaQuarto = new javax.swing.JButton();
         btPedido = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
+        lblLogado = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -72,39 +85,6 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().add(btCadastraQuarto);
         btCadastraQuarto.setBounds(10, 113, 137, 39);
 
-        jButton1.setText("Consulta 1");
-        getContentPane().add(jButton1);
-        jButton1.setBounds(371, 19, 83, 23);
-
-        jButton2.setText("Consulta 2");
-        getContentPane().add(jButton2);
-        jButton2.setBounds(371, 61, 83, 23);
-
-        jButton3.setText("Consulta 3");
-        getContentPane().add(jButton3);
-        jButton3.setBounds(371, 95, 83, 23);
-
-        jButton4.setText("Consulta 4");
-        getContentPane().add(jButton4);
-        jButton4.setBounds(371, 129, 83, 23);
-
-        jButton5.setText("Consulta 5");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton5);
-        jButton5.setBounds(371, 158, 83, 23);
-
-        jButton6.setText("Consulta 6");
-        getContentPane().add(jButton6);
-        jButton6.setBounds(371, 192, 83, 23);
-
-        jButton7.setText("Consulta 7");
-        getContentPane().add(jButton7);
-        jButton7.setBounds(371, 226, 83, 23);
-
         btReservaQuarto.setText("Reservar quarto");
         getContentPane().add(btReservaQuarto);
         btReservaQuarto.setBounds(10, 158, 137, 39);
@@ -126,14 +106,21 @@ public class Principal extends javax.swing.JFrame {
         });
         getContentPane().add(jButton8);
         jButton8.setBounds(10, 208, 137, 41);
+        getContentPane().add(lblLogado);
+        lblLogado.setBounds(330, 280, 140, 40);
+
+        jButton1.setText("Relatório");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1);
+        jButton1.setBounds(240, 10, 100, 40);
 
         setSize(new java.awt.Dimension(505, 367));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void btCadastroHospedeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastroHospedeActionPerformed
         // TODO add your handling code here:
@@ -157,43 +144,31 @@ public class Principal extends javax.swing.JFrame {
 
     private void btPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPedidoActionPerformed
         // TODO add your handling code here:
-        new Frm_pedido().setVisible(true);
+        new Frm_pedido(logado).setVisible(true);
     }//GEN-LAST:event_btPedidoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int respost = JOptionPane.showConfirmDialog(null, "Deseja visualizar o relatório?");
+        if (respost == JOptionPane.YES_OPTION) {
+            Conexao conexao = new Conexao();
+            Connection con = conexao.conectar();
+            String caminho = "relatorio.jasper";
+            JasperPrint jasper = null;
+            try {
+                jasper = JasperFillManager.fillReport(caminho, null, con);
+                JasperViewer view = new JasperViewer(jasper, false);
+                view.setVisible(true);
+            } catch (JRException ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao gerar relatório. "+ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Principal().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCadastraProduto;
@@ -202,12 +177,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btPedido;
     private javax.swing.JButton btReservaQuarto;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JLabel lblLogado;
     // End of variables declaration//GEN-END:variables
 }

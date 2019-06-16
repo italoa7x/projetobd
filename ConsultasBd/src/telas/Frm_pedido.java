@@ -30,12 +30,15 @@ public class Frm_pedido extends javax.swing.JFrame {
     private ITpedidoDAO pedidodao;
     private IThospedeDAO hospededao;
     private ITprodutoDAO produtodao;
+    private Funcionario logado;
     
-    public Frm_pedido() {
+    public Frm_pedido(Funcionario l) {
         initComponents();
         pedidodao = new PedidoDAO();
         hospededao = new HospedeDAO();
         produtodao = new ProdutoDAO();
+        
+        logado = l;
     }
 
     /**
@@ -483,7 +486,7 @@ public class Frm_pedido extends javax.swing.JFrame {
             ArrayList<Produto> listaProdutos = coletarProdutos();
             
             pedido.setProdutos(listaProdutos);
-            
+            pedido.setIdFuncionario(logado.getId());
             if (listaProdutos.size() > 0 && idHospede > 0) {
                 if (pedidodao.create(pedido)) {
                     JOptionPane.showMessageDialog(null, "Pedido finalizado.");

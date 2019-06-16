@@ -12,9 +12,18 @@ import java.util.ArrayList;
  * @author darkc
  */
 public class Pedido {
-    private int idHospede;
+    private int idHospede, idFuncionario;
     private ArrayList<Produto> produtos;
 
+    public int getIdFuncionario() {
+        return idFuncionario;
+    }
+
+    public void setIdFuncionario(int idFuncionario) {
+        this.idFuncionario = idFuncionario;
+    }
+
+    
     public ArrayList<Produto> getProdutos() {
         return produtos;
     }

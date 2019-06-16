@@ -32,9 +32,10 @@ public class PedidoDAO implements ITpedidoDAO {
         Pedido pedido = (Pedido) obj;
         int idPedido = -1;
         try {
-            pst = con.prepareStatement("INSERT INTO pedido (id_hospede,data_pedido) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS);
+            pst = con.prepareStatement("INSERT INTO pedido (id_hospede,data_pedido, id_funcionario) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
             pst.setInt(1, pedido.getIdHospede());
             pst.setDate(2, new Date(System.currentTimeMillis()));
+            pst.setInt(3, pedido.getIdFuncionario());
             pst.execute();
             rs = pst.getGeneratedKeys();
 
@@ -43,7 +44,7 @@ public class PedidoDAO implements ITpedidoDAO {
             }
 
         } catch (Exception e) {
-            throw new Exception("Erro ao salvar pedido. " + e.getMessage());
+            throw new Exception("Erro ao salvar pedido. Provavelmente o funcionário não existe. " + e.getMessage());
         }
         if (idPedido > -1) {
             if (this.salvaProdutoPedido(idPedido, pedido.getProdutos())) {

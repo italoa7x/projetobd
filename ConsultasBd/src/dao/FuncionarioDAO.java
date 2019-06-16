@@ -86,12 +86,12 @@ public class FuncionarioDAO implements ITfuncionarioDAO {
         }
     }
 
-    public Funcionario acessSystem(String cpf, String cargo) throws Exception {
+    public Funcionario acessSystem(String nome, String cpf) throws Exception {
         Funcionario logado = new Funcionario();
         try {
-            pst = con.prepareStatement("SELECT *FROM funcionario WHERE cpf = ? and cargo = ?");
-            pst.setString(1, cpf);
-            pst.setString(2, cargo);
+            pst = con.prepareStatement("SELECT *FROM funcionario WHERE nome= ? and cpf= ?");
+            pst.setString(1, nome);
+            pst.setString(2, cpf);
             rs = pst.executeQuery();
             while (rs.next()) {
                 logado.setNome(rs.getString("nome"));
@@ -99,11 +99,10 @@ public class FuncionarioDAO implements ITfuncionarioDAO {
                 logado.setId(rs.getInt("id"));
                 logado.setTelefone(rs.getString("telefone"));
             }
-
+            return logado;
         } catch (Exception e) {
-            throw new Exception("Erro ao acessar o sistema. " + e.getMessage());
         }
-        return logado;
+        return null;
     }
 
     public void fecharConexoes() {
