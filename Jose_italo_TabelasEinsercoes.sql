@@ -46,6 +46,9 @@ create table pedido(
 id int auto_increment,
 data_pedido date,
 id_hospede int not null,
+id_funcionario int not null,
+foreign key(id_hospede) references hospede(id),
+foreign key(id_funcionario) references funcionario(id),
 primary key(id));
 
 
@@ -108,6 +111,14 @@ begin
 update quarto set status = 'Ocupado' where id = new.id_quarto;
 end $
 
+delimiter $
+create trigger calculaPagamento after insert
+on reserva
+for each row
+begin
+insert into pagamento(id_reserva,valor) values
+(new.id, (select (r.quant_dias * q.diaria) from quarto q inner join reserva r on (q.id = r.id_quarto) and r.id = new.id));
+end$
 
 -- INSERÇÕES --
 insert into funcionario(nome,telefone,cargo,cpf) values
@@ -145,18 +156,6 @@ insert into pedido (id_hospede,id_funcionario) values
 
 insert into reserva(id_hospede,id_quarto,id_funcionario,quant_dias) values
 (3,3,2,5),(4,4,2,2),(5,5,2,10),(6,6,2,15),(7,7,2,30),(8,8,2,5),(9,9,2,7),(10,10,2,24),(11,11,2,20),(12,12,2,7);
-
-insert into pagamento (id_reserva,valor) values
-(1,(select (r.quant_dias * q.diaria) total from quarto q, reserva r where q.id = r.id_quarto and q.id = 1)),
-(2,(select (r.quant_dias * q.diaria) total from quarto q, reserva r where q.id = r.id_quarto and q.id = 2)),
-(5,(select (r.quant_dias * q.diaria) total from quarto q, reserva r where q.id = r.id_quarto and q.id = 5)),
-(6,(select (r.quant_dias * q.diaria) total from quarto q, reserva r where q.id = r.id_quarto and q.id = 6)),
-(7,(select (r.quant_dias * q.diaria) total from quarto q, reserva r where q.id = r.id_quarto and q.id = 7)),
-(8,(select (r.quant_dias * q.diaria) total from quarto q, reserva r where q.id = r.id_quarto and q.id = 8)),
-(9,(select (r.quant_dias * q.diaria) total from quarto q, reserva r where q.id = r.id_quarto and q.id = 9))
-,(10,(select (r.quant_dias * q.diaria) total from quarto q, reserva r where q.id = r.id_quarto and q.id = 10)),
-(11,(select (r.quant_dias * q.diaria) total from quarto q, reserva r where q.id = r.id_quarto and q.id = 11)),
-(12,(select (r.quant_dias * q.diaria) total from quarto q, reserva r where q.id = r.id_quarto and q.id = 12));
 
 
 insert into produto_pedido (id_produto,id_pedido,quantidade) values
