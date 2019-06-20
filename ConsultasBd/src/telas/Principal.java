@@ -53,6 +53,7 @@ public class Principal extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         lblLogado = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -86,6 +87,11 @@ public class Principal extends javax.swing.JFrame {
         btCadastraQuarto.setBounds(10, 113, 137, 39);
 
         btReservaQuarto.setText("Reservar quarto");
+        btReservaQuarto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btReservaQuartoActionPerformed(evt);
+            }
+        });
         getContentPane().add(btReservaQuarto);
         btReservaQuarto.setBounds(10, 158, 137, 39);
 
@@ -107,7 +113,7 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().add(jButton8);
         jButton8.setBounds(10, 208, 137, 41);
         getContentPane().add(lblLogado);
-        lblLogado.setBounds(330, 280, 140, 40);
+        lblLogado.setBounds(340, 280, 140, 40);
 
         jButton1.setText("Relatório");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -117,6 +123,15 @@ public class Principal extends javax.swing.JFrame {
         });
         getContentPane().add(jButton1);
         jButton1.setBounds(240, 10, 100, 40);
+
+        jButton2.setText("Sair");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2);
+        jButton2.setBounds(200, 260, 110, 40);
 
         setSize(new java.awt.Dimension(505, 367));
         setLocationRelativeTo(null);
@@ -129,6 +144,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btCadastraProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastraProdutoActionPerformed
         // TODO add your handling code here:
+        new Frm_cadastroProduto().setVisible(true);
     }//GEN-LAST:event_btCadastraProdutoActionPerformed
 
     private void btCadastraQuartoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastraQuartoActionPerformed
@@ -165,6 +181,18 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        new Frm_login().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btReservaQuartoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReservaQuartoActionPerformed
+        // TODO add your handling code here:
+        new Frm_reserva(logado).setVisible(true);
+        
+    }//GEN-LAST:event_btReservaQuartoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -177,6 +205,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btPedido;
     private javax.swing.JButton btReservaQuarto;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel lblLogado;
     // End of variables declaration//GEN-END:variables

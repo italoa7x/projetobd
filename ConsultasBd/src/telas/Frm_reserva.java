@@ -8,12 +8,19 @@ package telas;
 import dao.HospedeDAO;
 import dao.IThospedeDAO;
 import dao.ITquartoDAO;
+import dao.ITreservaDAO;
 import dao.QuartoDAO;
+import dao.ReservaDAO;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Funcionario;
 import model.Hospede;
 import model.Quarto;
+import model.Reserva;
 
 /**
  *
@@ -26,12 +33,42 @@ public class Frm_reserva extends javax.swing.JFrame {
      */
     private ITquartoDAO quartodao;
     private IThospedeDAO hospededao;
-    
-    public Frm_reserva() {
+    private Funcionario fLogado;
+    private ITreservaDAO reservadao;
+
+    public Frm_reserva(Funcionario logado) {
         initComponents();
         quartodao = new QuartoDAO();
         hospededao = new HospedeDAO();
+        reservadao = new ReservaDAO();
+        fLogado = logado;
         this.popularBotoe();
+        this.preencherTabela();
+    }
+
+    private void preencherTabela() {
+        DefaultTableModel modelo = (DefaultTableModel) tbl_reserva.getModel();
+        try {
+            ArrayList<String[]> dados = reservadao.listar();
+            for (String[] x : dados) {
+                modelo.addRow(x);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Frm_reserva.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void atualizarTabela() {
+        DefaultTableModel modelo = (DefaultTableModel) tbl_reserva.getModel();
+        modelo.setNumRows(0);
+        try {
+            ArrayList<String[]> dados = reservadao.listar();
+            for (String[] x : dados) {
+                modelo.addRow(x);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Frm_reserva.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void popularBotoe() {
@@ -48,7 +85,6 @@ public class Frm_reserva extends javax.swing.JFrame {
         botoes.add(this.bt10);
         botoes.add(this.bt11);
         botoes.add(this.bt12);
-
         try {
             Quarto registroQuartos = (Quarto) quartodao.read();
             ArrayList<Quarto> quartos = registroQuartos.getQuartos();
@@ -60,18 +96,71 @@ public class Frm_reserva extends javax.swing.JFrame {
             }
 
         } catch (Exception e) {
+        }
+    }
 
+    private void atualizarBotoes() {
+        ArrayList<JButton> botoes = new ArrayList<JButton>();
+        botoes.add(this.bt1);
+        botoes.add(this.bt2);
+        botoes.add(this.bt3);
+        botoes.add(this.bt4);
+        botoes.add(this.bt5);
+        botoes.add(this.bt6);
+        botoes.add(this.bt7);
+        botoes.add(this.bt8);
+        botoes.add(this.bt9);
+        botoes.add(this.bt10);
+        botoes.add(this.bt11);
+        botoes.add(this.bt12);
+        try {
+            Quarto registroQuartos = (Quarto) quartodao.read();
+            ArrayList<Quarto> quartos = registroQuartos.getQuartos();
+            for (int i = 0; i < botoes.size(); i++) {
+                if (quartos.get(i).getStatus().equalsIgnoreCase("disponível")) {
+                    botoes.get(i).setText(quartos.get(i).getId() + "-" + quartos.get(i).getStatus());
+
+                }
+            }
+
+        } catch (Exception e) {
+        }
+    }
+
+    private void finalizarReserva(JButton btClicado) {
+        try {
+            int quant_dias = Integer.parseInt(JOptionPane.showInputDialog("Digite a quantidade de dias."));
+            int idHospede = Integer.parseInt(campoId.getText());
+            String[] dadosBt = btClicado.getText().split("-");
+                int idQuarto = Integer.parseInt(dadosBt[0]);
+                int idFuncionario = fLogado.getId();
+
+                Reserva reserva = new Reserva();
+                reserva.setIdFunconario(idFuncionario);
+                reserva.setIdHospede(idHospede);
+                reserva.setIdQuarto(idQuarto);
+                reserva.setQuantidadeDias(quant_dias);
+
+                if (idHospede > 0 && idQuarto > 0 && quant_dias > 0) {
+                    if (reservadao.salvar(reserva)) {
+                        JOptionPane.showMessageDialog(null, "Reservado.");
+                        this.limparCampos();
+                        this.atualizarBotoes();
+                        this.atualizarTabela();
+                    }
+
+                }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao realizar reserva.");
         }
 
     }
-    
-    private void finalizarReserva(JButton btClicado) {
-        int idHospeded = Integer.parseInt(campoId.getText());
-        if (btClicado.getText().length() > 0) {
-            String[] dadosBt = btClicado.getText().split("-");
-            int idQuarto = Integer.parseInt(dadosBt[0]);
 
-        }
+    private void limparCampos() {
+        this.campoCpf.setText("");
+        this.campoId.setText("");
+        this.campoNome.setText("");
+
     }
 
     /**
@@ -109,11 +198,13 @@ public class Frm_reserva extends javax.swing.JFrame {
         campoPesquisarHospede = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbl_reserva = new javax.swing.JTable();
 
         jLabel5.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jLabel5.setText("ID");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(742, 350));
@@ -278,7 +369,7 @@ public class Frm_reserva extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 10, Short.MAX_VALUE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar Hóspede"));
@@ -307,12 +398,9 @@ public class Frm_reserva extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, Short.MAX_VALUE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(campoCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -352,40 +440,54 @@ public class Frm_reserva extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(243, 4, 4));
         jLabel8.setText("e selecione o quarto");
 
+        tbl_reserva.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Hospede", "Quarto", "Quant. dias"
+            }
+        ));
+        jScrollPane1.setViewportView(tbl_reserva);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel8))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel8))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(566, 501));
+        setSize(new java.awt.Dimension(847, 501));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -468,40 +570,6 @@ public class Frm_reserva extends javax.swing.JFrame {
         this.finalizarReserva(bt12);
     }//GEN-LAST:event_bt12ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Frm_reserva.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Frm_reserva.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Frm_reserva.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Frm_reserva.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Frm_reserva().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt1;
@@ -530,5 +598,7 @@ public class Frm_reserva extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tbl_reserva;
     // End of variables declaration//GEN-END:variables
 }

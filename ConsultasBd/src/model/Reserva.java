@@ -10,9 +10,18 @@ package model;
  * @author darkc
  */
 public class Reserva {
-    private int idQuarto, idHospede, quantidadeDias;
+    private int idQuarto, idHospede, quantidadeDias, idFunconario;
     private float diaria;
 
+    public int getIdFunconario() {
+        return idFunconario;
+    }
+
+    public void setIdFunconario(int idFunconario) {
+        this.idFunconario = idFunconario;
+    }
+
+    
     public int getIdQuarto() {
         return idQuarto;
     }
