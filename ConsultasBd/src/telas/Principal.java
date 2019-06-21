@@ -34,8 +34,25 @@ public class Principal extends javax.swing.JFrame {
         }else{
             lblLogado.setText("admin");
         }
+        this.verificaLogado();
     }
 
+    private void verificaLogado(){
+        if(logado != null && logado.getCargo().equalsIgnoreCase("atendente")){
+            this.btCadastraProduto.setEnabled(false);
+            this.btCadastraQuarto.setEnabled(false);
+            this.btReservaQuarto.setEnabled(false);
+            this.btRelatorio.setEnabled(false);
+            this.btCadastroHospede.setEnabled(false);
+            this.btCadastrarFuncionrio.setEnabled(false);
+        }else if(logado != null && logado.getCargo().equalsIgnoreCase("recepcionista")){
+             this.btCadastraProduto.setEnabled(false);
+            this.btCadastraQuarto.setEnabled(false);
+            this.btRelatorio.setEnabled(false);
+            this.btPedido.setEnabled(false);
+            this.btCadastrarFuncionrio.setEnabled(false);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,9 +67,9 @@ public class Principal extends javax.swing.JFrame {
         btCadastraQuarto = new javax.swing.JButton();
         btReservaQuarto = new javax.swing.JButton();
         btPedido = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        btCadastrarFuncionrio = new javax.swing.JButton();
         lblLogado = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btRelatorio = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -104,25 +121,25 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().add(btPedido);
         btPedido.setBounds(10, 260, 137, 40);
 
-        jButton8.setText("Cadastrar funcionario");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        btCadastrarFuncionrio.setText("Cadastrar funcionario");
+        btCadastrarFuncionrio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                btCadastrarFuncionrioActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton8);
-        jButton8.setBounds(10, 208, 137, 41);
+        getContentPane().add(btCadastrarFuncionrio);
+        btCadastrarFuncionrio.setBounds(10, 208, 137, 41);
         getContentPane().add(lblLogado);
         lblLogado.setBounds(340, 280, 140, 40);
 
-        jButton1.setText("Relatório");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btRelatorio.setText("Relatório");
+        btRelatorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btRelatorioActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(240, 10, 100, 40);
+        getContentPane().add(btRelatorio);
+        btRelatorio.setBounds(240, 10, 100, 40);
 
         jButton2.setText("Sair");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -153,17 +170,17 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btCadastraQuartoActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void btCadastrarFuncionrioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarFuncionrioActionPerformed
         // TODO add your handling code here:
         new Frm_cadastroFuncionario().setVisible(true);
-    }//GEN-LAST:event_jButton8ActionPerformed
+    }//GEN-LAST:event_btCadastrarFuncionrioActionPerformed
 
     private void btPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPedidoActionPerformed
         // TODO add your handling code here:
         new Frm_pedido(logado).setVisible(true);
     }//GEN-LAST:event_btPedidoActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRelatorioActionPerformed
         // TODO add your handling code here:
         int respost = JOptionPane.showConfirmDialog(null, "Deseja visualizar o relatório?");
         if (respost == JOptionPane.YES_OPTION) {
@@ -179,7 +196,7 @@ public class Principal extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Erro ao gerar relatório. "+ex.getMessage());
             }
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btRelatorioActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -201,12 +218,12 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCadastraProduto;
     private javax.swing.JButton btCadastraQuarto;
+    private javax.swing.JButton btCadastrarFuncionrio;
     private javax.swing.JButton btCadastroHospede;
     private javax.swing.JButton btPedido;
+    private javax.swing.JButton btRelatorio;
     private javax.swing.JButton btReservaQuarto;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton8;
     private javax.swing.JLabel lblLogado;
     // End of variables declaration//GEN-END:variables
 }
