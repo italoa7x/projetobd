@@ -9,35 +9,32 @@ import bd.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.exolab.castor.types.Date;
 
 /**
  *
  * @author darkc
  */
-public class RelatorioDAO {
+public class RelatorioDAO implements ITrelatorios{
 
     private Conexao conexao;
     private Connection con;
-
+    private ResultSet rs = null;
+    private PreparedStatement pst;
+    
     public RelatorioDAO() {
         conexao = new Conexao();
         con = conexao.conectar();
     }
 
     public ArrayList<String[]> relatorio(String data, String ordemExibicao) throws Exception {
-        ResultSet rs = null;
         ArrayList<String[]> vetor = new ArrayList<String[]>();
         String sql = "select q.id Quarto, q.diaria Diaria_quarto, h.nome Hospede, (pp.quantidade * prod.valor) Total_pedido, p.valor Valor_estadia from hospede h\n"
                     + "inner join reserva r on (h.id = r.id_hospede) inner join pagamento p on (p.id_reserva = r.id) inner join quarto q on \n"
                     + "(q.id = r.id_quarto) inner join pedido pe on (pe.id_hospede = h.id) inner join produto_pedido pp on (pe.id = pp.id_pedido) inner join produto prod\n"
                     + "on (pp.id_produto = prod.id) where pe.data_pedido = ? order by h.nome = ?";
         try {
-            PreparedStatement pst = con.prepareStatement(sql);
+            pst = con.prepareStatement(sql);
             pst.setDate(1, java.sql.Date.valueOf(data));
             pst.setString(2, ordemExibicao);
             rs = pst.executeQuery();
@@ -55,5 +52,170 @@ public class RelatorioDAO {
             throw new Exception(e.getMessage());
         }
 
+    }
+
+    @Override
+    public ArrayList<String[]> relatorio1() throws Exception {
+         ArrayList<String[]> vetor = new ArrayList<String[]>();
+        String sql = "select q.diaria, q.acomodacoes, q.status, q.id from quarto q inner join quarto_extra qe on (q.id = qe.id_quarto)";
+        try {
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                String[] dados = new String[5];
+                dados[0] = rs.getFloat("diaria")+"";
+                dados[1] = rs.getInt("acomodacoes")+"";
+                dados[2] = rs.getString("status");
+                dados[3] = rs.getInt("id") + "";
+                vetor.add(dados);
+            }
+            return vetor;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+
+    }
+
+    @Override
+    public ArrayList<String[]> relatorio2() throws Exception {
+          ArrayList<String[]> vetor = new ArrayList<String[]>();
+        String sql = "select p.* from produto p inner join produto_pedido pp on (p.id = pp.id_produto)";
+        try {
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                String[] dados = new String[5];
+                dados[0] = rs.getFloat("valor") + "";
+                dados[1] = rs.getString("nome");
+                dados[2] = rs.getInt("quantidade") + "";
+                dados[3] = rs.getInt("id") + "";
+                vetor.add(dados);
+            }
+            return vetor;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    public ArrayList<String[]> relatorio3() throws Exception {
+          ArrayList<String[]> vetor = new ArrayList<String[]>();
+        String sql = "select p.nome, p.valor from produto p inner join produto_pedido pp on (p.id = pp.id_produto)";
+        try {
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                String[] dados = new String[5];
+                dados[0] = rs.getString("nome");
+                dados[1] = rs.getFloat("valor") + "";
+                vetor.add(dados);
+            }
+            return vetor;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    public ArrayList<String[]> relatorio4() throws Exception {
+          ArrayList<String[]> vetor = new ArrayList<String[]>();
+        String sql = "select *from funcionario where upper(cargo) = 'atendente'";
+        try {
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                String[] dados = new String[5];
+                dados[0] = rs.getString("nome");
+                dados[1] = rs.getString("cpf");
+                dados[2] = rs.getString("cargo");
+                dados[3] = rs.getString("telefone") + "";
+                vetor.add(dados);
+            }
+            return vetor;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    public ArrayList<String[]> relatorio5() throws Exception {
+          ArrayList<String[]> vetor = new ArrayList<String[]>();
+        String sql = "select q.* from quarto q inner join quarto_extra qe on (q.id = qe.id_quarto) inner join\n" +
+"extra e on (qe.id_extra = e.id) where upper(e.descricao) = 'fogão'";
+        try {
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                String[] dados = new String[5];
+                dados[0] = rs.getInt("acomodacoes") + "";
+                dados[1] = rs.getFloat("diaria") + "";
+                dados[2] = rs.getString("status");
+                vetor.add(dados);
+            }
+            return vetor;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    public ArrayList<String[]> relatorio6() throws Exception {
+          ArrayList<String[]> vetor = new ArrayList<String[]>();
+        String sql = "select *from quarto where acomodacoes > 2";
+        try {
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                String[] dados = new String[5];
+                dados[0] = rs.getInt("acomodacoes") + "";
+                dados[1] = rs.getFloat("diaria") + "";
+                dados[2] = rs.getString("status");
+                vetor.add(dados);
+            }
+            return vetor;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    public ArrayList<String[]> relatorio7() throws Exception {
+          ArrayList<String[]> vetor = new ArrayList<String[]>();
+        String sql = "select h.nome, h.telefone from hospede h inner join reserva r on (h.id = r.id_hospede)";
+        try {
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                String[] dados = new String[5];
+                dados[0] = rs.getString("nome");
+                dados[1] = rs.getString("telefone");
+                vetor.add(dados);
+            }
+            return vetor;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    public ArrayList<String[]> relatorio8() throws Exception {
+          ArrayList<String[]> vetor = new ArrayList<String[]>();
+        String sql = "select p.* from produto p where p.id not in \n" +
+"(select id_produto from produto_pedido pp inner join pedido p on(pp.id_pedido = p.id) inner join hospede h on (p.id_hospede = h.id) \n" +
+"where h.cpf like '%1%')";
+        try {
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                String[] dados = new String[5];
+                dados[0] = rs.getInt("quantidade") + "";
+                dados[1] = rs.getFloat("valor") + "";
+                dados[2] = rs.getString("nome");
+                vetor.add(dados);
+            }
+            return vetor;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
 }

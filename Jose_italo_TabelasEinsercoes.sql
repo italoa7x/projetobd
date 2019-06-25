@@ -1,4 +1,4 @@
--- CRIAÇÃO DAS TABELAS --
+﻿-- CRIAÇÃO DAS TABELAS --
 
 create table funcionario(
 nome varchar(30),

@@ -14,12 +14,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author darkc
  */
-public class Frm_relatorio extends javax.swing.JFrame {
+public class Frm_relatorio9 extends javax.swing.JFrame {
 
     /**
      * Creates new form Frm_relatorio
      */
-    public Frm_relatorio() {
+    public Frm_relatorio9() {
         initComponents();
     }
 
@@ -44,7 +44,7 @@ public class Frm_relatorio extends javax.swing.JFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         tbl_relatorio.setModel(new javax.swing.table.DefaultTableModel(

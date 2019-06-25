@@ -5,6 +5,8 @@
  */
 package telas;
 
+import dao.RelatorioDAO;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -19,8 +21,11 @@ public class Frm_consults extends javax.swing.JFrame {
     /**
      * Creates new form Frm_consults
      */
+    private RelatorioDAO relatorios;
+    private ArrayList<String[]> dados;
     public Frm_consults() {
         initComponents();
+        relatorios = new RelatorioDAO();
     }
 
     /**
@@ -54,18 +59,53 @@ public class Frm_consults extends javax.swing.JFrame {
         });
 
         jButton2.setText("Consulta2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Consulta3");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Consulta4");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Consulta5");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Consulta6");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Consulta7");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("Consulta8");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jButton9.setText("Logar");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
@@ -135,7 +175,13 @@ public class Frm_consults extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            dados = relatorios.relatorio1();
+            new Frm_relatorios1(dados).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Frm_consults.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -146,8 +192,78 @@ public class Frm_consults extends javax.swing.JFrame {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
-        new Frm_relatorio().setVisible(true);
+        new Frm_relatorio9().setVisible(true);
     }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            // TODO add your handling code here:
+            dados = relatorios.relatorio2();
+            new Frm_relatorios2(dados).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Frm_consults.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {
+            // TODO add your handling code here:
+            dados = relatorios.relatorio3();
+            new Frm_relatorios3(dados).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Frm_consults.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        try {
+            // TODO add your handling code here:
+            dados = relatorios.relatorio4();
+            new Frm_relatorios4(dados).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Frm_consults.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        try {
+            // TODO add your handling code here:
+            dados = relatorios.relatorio5();
+            new Frm_relatorios5(dados).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Frm_consults.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        try {
+            // TODO add your handling code here:
+            dados = relatorios.relatorio6();
+            new Frm_relatorios6(dados).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Frm_consults.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        try {
+            // TODO add your handling code here:
+            dados = relatorios.relatorio7();
+            new Frm_relatorios7(dados).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Frm_consults.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        try {
+            // TODO add your handling code here:
+            dados = relatorios.relatorio8();
+            new Frm_relatorios8(dados).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Frm_consults.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments

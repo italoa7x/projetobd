@@ -16,7 +16,7 @@ import model.Reserva;
  *
  * @author darkc
  */
-public class ReservaDAO implements ITreservaDAO{
+public class ReservaDAO implements ITreservaDAO {
     private ResultSet rs;
     private Connection con;
     private Conexao conexao;
