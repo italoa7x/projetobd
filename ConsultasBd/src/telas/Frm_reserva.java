@@ -89,9 +89,8 @@ public class Frm_reserva extends javax.swing.JFrame {
             Quarto registroQuartos = (Quarto) quartodao.read();
             ArrayList<Quarto> quartos = registroQuartos.getQuartos();
             for (int i = 0; i < botoes.size(); i++) {
-                if (quartos.get(i).getStatus().equalsIgnoreCase("disponível")) {
+                if (quartos.get(i).getStatus().equals("Disponível")) {
                     botoes.get(i).setText(quartos.get(i).getId() + "-" + quartos.get(i).getStatus());
-
                 }
             }
 
@@ -117,7 +116,7 @@ public class Frm_reserva extends javax.swing.JFrame {
             Quarto registroQuartos = (Quarto) quartodao.read();
             ArrayList<Quarto> quartos = registroQuartos.getQuartos();
             for (int i = 0; i < botoes.size(); i++) {
-                if (quartos.get(i).getStatus().equalsIgnoreCase("disponível")) {
+                if (quartos.get(i).getStatus().equals("Disponível")) {
                     botoes.get(i).setText(quartos.get(i).getId() + "-" + quartos.get(i).getStatus());
 
                 }
