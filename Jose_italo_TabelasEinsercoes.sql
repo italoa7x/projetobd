@@ -38,7 +38,7 @@ create table quarto(
 id int auto_increment,
 diaria float,
 acomodacoes int,
-status varchar(20),
+status varchar(20) default 'Disponível',
 primary key(id)
 );
 
@@ -56,7 +56,7 @@ create table quarto_extra(
 id_quarto int not null,
 id_extra int not null,
 primary key(id_quarto,id_extra),
-foreign key(id_quarto) references quarto(id),
+foreign key(id_quarto) references quarto(id) on delete cascade,
 foreign key(id_extra) references extra(id)
 );
 

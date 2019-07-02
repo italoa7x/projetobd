@@ -14,12 +14,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author darkc
  */
-public class Frm_relatorio9 extends javax.swing.JFrame {
+public class Frm_relatorio extends javax.swing.JFrame {
 
     /**
      * Creates new form Frm_relatorio
      */
-    public Frm_relatorio9() {
+    public Frm_relatorio() {
         initComponents();
     }
 
@@ -32,7 +32,7 @@ public class Frm_relatorio9 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
         buttonGroup1 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_relatorio = new javax.swing.JTable();
@@ -40,9 +40,9 @@ public class Frm_relatorio9 extends javax.swing.JFrame {
         campoData = new javax.swing.JFormattedTextField();
         jLabel2 = new javax.swing.JLabel();
         btPesquisar = new javax.swing.JButton();
-        comboOrdem = new javax.swing.JComboBox<>();
+        comboOrdem = new javax.swing.JComboBox<String>();
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -74,7 +74,7 @@ public class Frm_relatorio9 extends javax.swing.JFrame {
             }
         });
 
-        comboOrdem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "crescente", "decrescente" }));
+        comboOrdem.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "crescente", "decrescente" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
