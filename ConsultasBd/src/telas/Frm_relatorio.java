@@ -37,10 +37,12 @@ public class Frm_relatorio extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_relatorio = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        campoData = new javax.swing.JFormattedTextField();
+        campoDataFim = new javax.swing.JFormattedTextField();
         jLabel2 = new javax.swing.JLabel();
         btPesquisar = new javax.swing.JButton();
         comboOrdem = new javax.swing.JComboBox<String>();
+        campoDataInicio = new javax.swing.JFormattedTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -52,15 +54,15 @@ public class Frm_relatorio extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Quarto", "Diaria", "Hóspede", "Total compras", "Total estadia"
+                "Quarto", "Diaria", "Hóspede", "ID hospede", "Total compras", "Total estadia", "Data pagamento"
             }
         ));
         jScrollPane1.setViewportView(tbl_relatorio);
 
-        jLabel1.setText("Filtro de pesquisa");
+        jLabel1.setText("Data Início");
 
         try {
-            campoData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-##-##")));
+            campoDataFim.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-##-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -76,23 +78,35 @@ public class Frm_relatorio extends javax.swing.JFrame {
 
         comboOrdem.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "crescente", "decrescente" }));
 
+        try {
+            campoDataInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-##-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        jLabel3.setText("Data Fim");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(campoData, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboOrdem, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(comboOrdem, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(campoDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel3)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                .addComponent(campoDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
                 .addComponent(btPesquisar)
                 .addGap(33, 33, 33))
         );
@@ -104,7 +118,9 @@ public class Frm_relatorio extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(campoData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(campoDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campoDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -117,7 +133,7 @@ public class Frm_relatorio extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        setSize(new java.awt.Dimension(519, 426));
+        setSize(new java.awt.Dimension(573, 426));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -127,15 +143,16 @@ public class Frm_relatorio extends javax.swing.JFrame {
             RelatorioDAO r = new RelatorioDAO();
 
             String ordem = "asc";
-            String data = campoData.getText();
-            
+            String dataInicio = campoDataInicio.getText();
+            String dataFim = campoDataFim.getText();
+                    
             String tipoOrdem = comboOrdem.getSelectedItem().toString();
             
             if(tipoOrdem.equalsIgnoreCase("decrescente")){
                 ordem = "desc";
             }
 
-            ArrayList<String[]> relatorio = r.relatorio(data, ordem);
+            ArrayList<String[]> relatorio = r.relatorio(dataInicio, dataFim, ordem);
 
             DefaultTableModel modelo = (DefaultTableModel) tbl_relatorio.getModel();
 
@@ -153,11 +170,13 @@ public class Frm_relatorio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btPesquisar;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JFormattedTextField campoData;
+    private javax.swing.JFormattedTextField campoDataFim;
+    private javax.swing.JFormattedTextField campoDataInicio;
     private javax.swing.JComboBox<String> comboOrdem;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbl_relatorio;
     // End of variables declaration//GEN-END:variables

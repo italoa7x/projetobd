@@ -27,24 +27,23 @@ public class RelatorioDAO implements ITrelatorios{
         con = conexao.conectar();
     }
 
-    public ArrayList<String[]> relatorio(String data, String ordemExibicao) throws Exception {
+    public ArrayList<String[]> relatorio(String dataInicio, String dataFim, String ordemExibicao) throws Exception {
         ArrayList<String[]> vetor = new ArrayList<String[]>();
-        String sql = "select q.id Quarto, q.diaria Diaria_quarto, h.nome Hospede, (pp.quantidade * prod.valor) Total_pedido, p.valor Valor_estadia from hospede h\n"
-                    + "inner join reserva r on (h.id = r.id_hospede) inner join pagamento p on (p.id_reserva = r.id) inner join quarto q on \n"
-                    + "(q.id = r.id_quarto) inner join pedido pe on (pe.id_hospede = h.id) inner join produto_pedido pp on (pe.id = pp.id_pedido) inner join produto prod\n"
-                    + "on (pp.id_produto = prod.id) where pe.data_pedido = ? order by h.nome = ?";
+            String sql = "select *from relatorio9 where Data_pg between ? and ?";
         try {
             pst = con.prepareStatement(sql);
-            pst.setDate(1, java.sql.Date.valueOf(data));
-            pst.setString(2, ordemExibicao);
+            pst.setDate(1, java.sql.Date.valueOf(dataInicio));
+            pst.setDate(2, java.sql.Date.valueOf(dataFim));
             rs = pst.executeQuery();
             while(rs.next()){
-                String[] dados = new String[5];
+                String[] dados = new String[7];
                 dados[0] = rs.getInt("Quarto") + "";
                 dados[1] = rs.getFloat("Diaria_quarto") + "";
                 dados[2] = rs.getString("Hospede");
-                dados[3] = rs.getFloat("Total_pedido") + "";
+                dados[3] = rs.getInt("Id_hospede") + "";
                 dados[4] = rs.getFloat("Valor_estadia") + "";
+                dados[5] = rs.getFloat("Total_compras") + "";
+                dados[6] = rs.getDate("Data_pg") + "";
                 vetor.add(dados);
             }
             return vetor;
@@ -218,4 +217,5 @@ public class RelatorioDAO implements ITrelatorios{
             throw new Exception(e.getMessage());
         }
     }
+  
 }
